@@ -11,7 +11,7 @@ export default {
     state: [],
     effects: {
         *queryInitCards(_, {call, put}) {
-            const url = 'https://08ad1pao69.execute-api.us-east-1.amazonaws.com/dev/random_joke'
+            const url = '/dev/random_joke'
 
             const cardData = yield call(request, url)
             yield put({
