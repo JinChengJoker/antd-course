@@ -1,17 +1,33 @@
+import request from '../util/reuqest'
+
+const delay = (millisecond) => {
+    return new Promise((resolve) => {
+        setTimeout(resolve, millisecond)
+    })
+}
+
 export default {
     namespace: 'puzzlecards',
-    state: [
-        { 
-            id: 1,
-            setup: 'Did you hear about the two silk worms in a race?',
-            punchline: 'It ended in a tie',
-        },
-        {
-            id: 2,
-            setup: 'What happens to a frog\'s car when it breaks down?',
-            punchline: 'It gets toad away',
+    state: [],
+    effects: {
+        *queryInitCards(_, {call, put}) {
+            const url = 'https://08ad1pao69.execute-api.us-east-1.amazonaws.com/dev/random_joke'
+
+            const cardData = yield call(request, url)
+            yield put({
+                type: 'addNewCard',
+                payload: cardData
+            })
+
+            yield call(delay, 3000)
+
+            const cardData2 = yield call(request, url)
+            yield put({
+                type: 'addNewCard',
+                payload: cardData2
+            })
         }
-    ],
+    },
     reducers: {
         addNewCard(state, {payload}) {
             const newCard = {

@@ -11,18 +11,19 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        onClickAdd: (cardData) => {
-            const action = {
-                type: `${namespace}/addNewCard`,
-                payload: cardData
-            }
-            dispatch(action)
+        onDidMount: () => {
+            dispatch({
+                type: `${namespace}/queryInitCards`
+            })
         }
     }
 }
 @connect(mapStateToProps, mapDispatchToProps)
 
 class PuzzleCards extends React.Component {
+    componentDidMount() {
+        this.props.onDidMount()
+    }
     render() {
         return (
             <div>
@@ -34,12 +35,6 @@ class PuzzleCards extends React.Component {
                         </Card>
                     )
                 })}
-                <div>
-                    <Button onClick={() => {this.props.onClickAdd({
-                        setup: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-                        punchline: 'here we use dva',
-                    })}}>添加卡片</Button>
-                </div>
             </div>
         )
     }
